@@ -1,0 +1,1 @@
+-Wl,--gc-sections -Wl,-Map=.build/nuovotaka_freeadrs32_knob_rev1_via.map,--cref   -lm 
