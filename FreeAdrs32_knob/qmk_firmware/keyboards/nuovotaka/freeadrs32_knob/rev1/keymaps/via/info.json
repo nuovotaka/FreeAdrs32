@@ -3,7 +3,7 @@
   "vendorId": "0x8832",
   "productId": "0x8832",
   "matrix": { "cols": 10, "rows": 4 },
-  "lighting": "qmk_rgblight",
+  "menus": [ "qmk_rgblight" ],
   "layouts": {
     "keymap": [
       [

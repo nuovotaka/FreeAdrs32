@@ -16,16 +16,12 @@ NKRO_ENABLE = no            # Enable N-Key Rollover
 BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
 AUDIO_ENABLE = no           # Audio output
 
-# VIA
-VIA_ENABLE = yes
-
 # Duplex matrix.
 CUSTOM_MATRIX = lite
 SRC += lib/duplexmatrix/duplexmatrix.c
 
 # Encoders
 ENCODER_ENABLE = yes
-ENCODER_MAP_ENABLE = yes
 
 # This is unnecessary for processing KC_MS_BTN*.
 MOUSEKEY_ENABLE = no
@@ -35,7 +31,7 @@ RGBLIGHT_ENABLE = yes        # Enable RGBLIGHT
 RGB_MATRIX_DRIVER = ws2812
 
 # To support OLED
-OLED_ENABLE = no                # Please Enable this in each keymaps.
+OLED_ENABLE = yes
 SRC += lib/oledkit/oledkit.c    #
 
 # Include common library

@@ -16,43 +16,34 @@
 static pin_t row_pins[PINNUM_ROW] = MATRIX_ROW_PINS;
 static pin_t col_pins[PINNUM_COL] = MATRIX_COL_PINS;
 
-static inline void set_pin_input(pin_t pin)
-{
-    setPinInputHigh(pin);
+static inline void set_pin_input(pin_t pin) {
+    gpio_set_pin_input_high(pin);
 }
 
-static void set_pins_input(pin_t *pins, uint8_t n)
-{
-    for (uint8_t i = 0; i < n; i++)
-    {
+static void set_pins_input(pin_t* pins, uint8_t n) {
+    for (uint8_t i = 0; i < n; i++) {
         set_pin_input(pins[i]);
     }
 }
 
-static inline void set_pin_output(pin_t pin)
-{
-    setPinOutput(pin);
-    writePinLow(pin);
+static inline void set_pin_output(pin_t pin) {
+    gpio_set_pin_output(pin);
+    gpio_write_pin_low(pin);
 }
 
-static inline bool get_pin(pin_t pin)
-{
-    return readPin(pin);
+static inline bool get_pin(pin_t pin) {
+    return gpio_read_pin(pin);
 }
 
 __attribute__((weak)) void duplex_scan_raw_post_kb(matrix_row_t out_matrix[]) {}
 
-static void duplex_scan_raw(matrix_row_t out_matrix[])
-{
+static void duplex_scan_raw(matrix_row_t out_matrix[]) {
     // scan column to row
-    for (uint8_t row = 0; row < PINNUM_ROW; row++)
-    {
+    for (uint8_t row = 0; row < PINNUM_ROW; row++) {
         set_pin_output(row_pins[row]);
         matrix_output_select_delay();
-        for (uint8_t col = 0; col < PINNUM_COL; col++)
-        {
-            if (!get_pin(col_pins[col]))
-            {
+        for (uint8_t col = 0; col < PINNUM_COL; col++) {
+            if (!get_pin(col_pins[col])) {
                 out_matrix[row] |= 1 << col;
             }
         }
@@ -61,15 +52,12 @@ static void duplex_scan_raw(matrix_row_t out_matrix[])
     }
 
     // scan row to column.
-    for (uint8_t col = 0; col < PINNUM_COL; col++)
-    {
+    for (uint8_t col = 0; col < PINNUM_COL; col++) {
         set_pin_output(col_pins[col]);
         matrix_output_select_delay();
         matrix_row_t shifter = ((matrix_row_t)1) << (col + PINNUM_COL);
-        for (uint8_t row = 0; row < PINNUM_ROW; row++)
-        {
-            if (!get_pin(row_pins[row]))
-            {
+        for (uint8_t row = 0; row < PINNUM_ROW; row++) {
+            if (!get_pin(row_pins[row])) {
                 out_matrix[row] |= shifter;
             }
         }
@@ -80,16 +68,13 @@ static void duplex_scan_raw(matrix_row_t out_matrix[])
     duplex_scan_raw_post_kb(out_matrix);
 }
 
-static bool duplex_scan(matrix_row_t current_matrix[])
-{
+static bool duplex_scan(matrix_row_t current_matrix[]) {
     bool changed = false;
     matrix_row_t tmp[MATRIX_ROWS] = {0};
 
     duplex_scan_raw(tmp);
-    for (uint8_t row = 0; row < PINNUM_ROW; row++)
-    {
-        if (tmp[row] != current_matrix[row])
-        {
+    for (uint8_t row = 0; row < PINNUM_ROW; row++) {
+        if (tmp[row] != current_matrix[row]) {
             changed = true;
             current_matrix[row] = tmp[row];
         }
@@ -97,10 +82,7 @@ static bool duplex_scan(matrix_row_t current_matrix[])
     return changed;
 }
 
-#define thisHand 0
-
-void matrix_init_custom(void)
-{
+void matrix_init_custom(void) {
     set_pins_input(col_pins, PINNUM_COL);
     set_pins_input(row_pins, PINNUM_ROW);
 }
@@ -109,12 +91,8 @@ void matrix_init_custom(void)
 extern matrix_row_t raw_matrix[MATRIX_ROWS];
 extern matrix_row_t matrix[MATRIX_ROWS];
 
-uint8_t matrix_scan(void)
-{
-    bool changed = duplex_scan(raw_matrix);
+bool matrix_scan_custom(matrix_row_t current_matrix[]) {
+    bool changed = duplex_scan(current_matrix);
 
-    debounce(raw_matrix, matrix + thisHand, ROWS_PER_HAND, changed);
-
-    matrix_scan_kb();
     return changed;
 }

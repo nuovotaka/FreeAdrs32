@@ -68,13 +68,11 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     }};
 #endif
 
-#ifdef OLED_ENABLE
 
-#include "keyboards/nuovotaka/lib/oledkit/oledkit.h"
 
-void oledkit_render_info_user(void)
-{
+bool oled_task_user(void) {
+    oledkit_render_mylogo();
     free32knob_oled_render_keyinfo();
     free32knob_oled_render_layerinfo();
+    return false;
 }
-#endif
