@@ -3,7 +3,7 @@
 
 #include QMK_KEYBOARD_H
 
-#include "rev1.h"
+#include "rev1_2.h"
 
 // clang-format off
 matrix_row_t matrix_mask[MATRIX_ROWS] = {
