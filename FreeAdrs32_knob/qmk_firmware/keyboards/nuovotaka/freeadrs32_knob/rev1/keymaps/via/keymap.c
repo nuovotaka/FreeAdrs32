@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
-#include "quantum.h"
 
 #define FN MO(1)
 #define R_M_F RGB_MODE_FORWARD
@@ -10,8 +9,6 @@
 #define LALTZ LALT(KC_Z)
 #define SFTF11 LSFT(KC_F11)
 #define LSFTF LSFT(KC_F)
-
-#define NUM_DIRECTIONS 2
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(
