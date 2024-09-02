@@ -14,7 +14,6 @@
 #define ENCODER_MAP_KEY_DELAY 10
 
 // RGB LED settings
-#define WS2812_DI_PIN D3
 
 #ifdef RGBLIGHT_ENABLE
 #    undef RGBLIGHT_EFFECT_BREATHING

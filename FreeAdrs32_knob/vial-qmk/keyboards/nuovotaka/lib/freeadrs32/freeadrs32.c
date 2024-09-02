@@ -91,7 +91,7 @@ void free32knob_oled_render_layerinfo(void) {
     //
     // 現在のレイヤーを表示する
     oled_write_ln_P(PSTR("Layer"), false);
-    oled_write_ln(get_u8_str(get_highest_layer(layer_state)), ' '), false);
+    oled_write_char(get_highest_layer(layer_state) + 0x30, false);
 
     // 改行を入れる
     oled_write_ln_P(PSTR(" "), false);
